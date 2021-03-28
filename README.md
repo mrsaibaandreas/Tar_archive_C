@@ -4,6 +4,8 @@ At the moment the program can archive a file only
 
 How to use it:
 gcc -Wall -o <name_of_executable> tar.c
+
+
 ./<name_of_executable> <file_to_be_archived> <archive_name>
 
 
