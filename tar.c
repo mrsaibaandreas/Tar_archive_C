@@ -32,7 +32,7 @@ void write_tar(char *file, int fd)
     snprintf(tar_header.uid, sizeof(tar_header.uid), "%07o", my_file.st_uid);//writing the uid
     snprintf(tar_header.gid, sizeof(tar_header.gid), "%07o", my_file.st_gid);//writing the gid
     snprintf(tar_header.size, sizeof(tar_header.size), "%011o", (int)my_file.st_size);//writing the size
-    snprintf(tar_header.mtime, sizeof(tar_header.mtime), "%011o", (int)my_file.st_mtime);//writting the time
+    snprintf(tar_header.mtime, sizeof(tar_header.mtime), "%011o", (int)my_file.st_mtime);//writing the time
     memset(tar_header.checksum, ' ', 8);//setting the memory of checksum to space
 
     int checksum = 0;
@@ -42,9 +42,9 @@ void write_tar(char *file, int fd)
         checksum += checksum_string[i];//computing the bytes in the checksum
     }
 
-    snprintf(tar_header.checksum, sizeof(tar_header.checksum), "%06o", checksum);//writting the checksum
+    snprintf(tar_header.checksum, sizeof(tar_header.checksum), "%06o", checksum);//writing the checksum
 
-    write (fd, checksum_string, sizeof(tar_header));//writting the struct into the tar file
+    write (fd, checksum_string, sizeof(tar_header));//writing the struct into the tar file
     int fa = 0;//fa = file to be archived 
     if ((fa = open(file, O_RDONLY)) < 0)//open the file
     {
@@ -56,7 +56,7 @@ void write_tar(char *file, int fd)
     long int size_buffer = 512 - sizeof(header);//the bytes that we need to pad in the archive
     char empty_buffer[size_buffer];//empty array which we want to add as padding
     memset(&empty_buffer, 0, size_buffer);//setting the memory to 0
-    write(fd, empty_buffer, size_buffer);//writting into the tar file
+    write(fd, empty_buffer, size_buffer);//writing into the tar file
     while ( (r = read(fa, buffer,512)) > 0)//reading the file we want to archive
     {	write(fd, buffer, r);
         if (r != 512)//if we read the last chunck of files, than we need to complete with the padding
