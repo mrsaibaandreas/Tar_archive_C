@@ -69,6 +69,15 @@ void write_tar(char *file, int fd)
 
 }
 
+
+void archive_multiple_files(int fd, int argc, char **argv)
+{
+	for(int i = 1 ; i < argc; i++)//going through each file and add it to the tar archive
+	{
+		write_tar (argv[i], fd);
+	}
+}
+
 int main(int argc, char **argv)
 {
     if (argc < 2)
@@ -76,15 +85,20 @@ int main(int argc, char **argv)
         perror("Too few arguments\n");
         exit(-1);
     }
-
+    printf("%i argc \n",argc);
     int fd = 0;
-    if ((fd = open(argv[2], O_WRONLY | O_CREAT | O_EXCL | O_APPEND, S_IRWURWGRWO)) < 0)//open the archive
+    if ((fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_EXCL | O_APPEND, S_IRWURWGRWO)) < 0)//open the archive
     {
-        perror(argv[2]);
+        perror(argv[argc - 1]);
     }
-
-    write_tar (argv[1], fd); //write the archive
-
+    if (argc == 3)
+    {    
+    	write_tar (argv[1], fd); //write the archive
+    }
+    else
+    {
+	    archive_multiple_files(fd, argc - 1, argv);
+    }
     close(fd);//close the archive
     return 0;
 }
